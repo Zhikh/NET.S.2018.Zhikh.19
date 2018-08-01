@@ -16,15 +16,19 @@ namespace DAL.Source
 
         public IEnumerable<string> GetAll()
         {
+            List<string> result = new List<string>();
+
             using (StreamReader reader = new StreamReader(_file.FullName))
             {
                 string line;
 
                 while ((line = reader.ReadLine()) != null)
                 {
-                    yield return line;
+                    result.Add(line);
                 }
             }
+
+            return result;
         }
     }
 }

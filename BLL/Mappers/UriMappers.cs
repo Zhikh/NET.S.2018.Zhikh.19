@@ -28,7 +28,7 @@ namespace BLL.Mappers
             return new UrlAddress
             {
                 HostName = uri.Host,
-                Segments = uri.Segments,
+                Segments = uri.Segments.ToList(),
                 ParametrValue = value,
                 ParametrKey = key
             };

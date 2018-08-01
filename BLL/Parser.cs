@@ -22,6 +22,8 @@ namespace BLL
 
         public IEnumerable<Uri> Parse(IEnumerable<string> values)
         {
+            List<Uri> list = new List<Uri>();
+
             foreach (var value in values)
             {
                 Uri result = null;
@@ -37,9 +39,11 @@ namespace BLL
 
                 if (result != null)
                 {
-                    yield return result;
+                    list.Add(result);
                 }
             }
+
+            return list;
         }
     }
 }

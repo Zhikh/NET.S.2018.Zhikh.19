@@ -3,8 +3,8 @@ using DAL.Destination.Interface.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace DAL.Destination
 {
@@ -19,22 +19,29 @@ namespace DAL.Destination
 
         public XDocument GetContent()
         {
-            return XDocument.Load(_file.Name);
+            return XDocument.Load(_file.FullName);
         }
 
         public void Save(IEnumerable<UrlAddress> entities)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(UrlAddresses));
-
-            UrlAddresses urlAddresses = new UrlAddresses
+            if (entities == null)
             {
-                Addresses = entities
-            };
-
-            using (Stream stream = _file.OpenWrite())
-            {
-                serializer.Serialize(stream, urlAddresses);
+                throw new ArgumentNullException(nameof(entities));
             }
+
+            XDocument xDoc = new XDocument(
+                new XElement("urlAddresses",
+                    entities.Select(e =>
+                        new XElement("urlAddress",
+                        new XElement("host",
+                            new XAttribute("name", e.HostName)),
+                            new XElement("uri",
+                                e.Segments.Select(s =>
+                                    new XElement("segment", s.ToString()))
+                            )))
+                    ));
+
+            xDoc.Save(_file.FullName);
         }
     }
 }
