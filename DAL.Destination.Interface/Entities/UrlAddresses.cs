@@ -10,6 +10,6 @@ namespace DAL.Destination.Interface.Entities
     public sealed class UrlAddresses
     {
         [XmlArray("urlAddresses")]
-        public List<UrlAddress> Addresses = new List<UrlAddress>();
+        public IEnumerable<UrlAddress> Addresses = new List<UrlAddress>();
     }
 }
