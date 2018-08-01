@@ -20,21 +20,19 @@ namespace BLL
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public IEnumerable<Uri> Parse(string value)
+        public IEnumerable<Uri> Parse(IEnumerable<string> values)
         {
-            var lines = value.Split(new string[] { "\n" }, StringSplitOptions.None);
-
-            foreach (var line in lines)
+            foreach (var value in values)
             {
                 Uri result = null;
 
                 try
                 {
-                    result = _validator.Validate(line);
+                    result = _validator.Validate(value);
                 }
                 catch(Exception ex)
                 {
-
+                    // TODO: save in logger
                 }
 
                 if (result != null)

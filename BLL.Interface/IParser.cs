@@ -4,6 +4,6 @@ namespace BLL.Interface
 {
     public interface IParser<out TResult>
     {
-        IEnumerable<TResult> Parse(string value);
+        IEnumerable<TResult> Parse(IEnumerable<string> value);
     }
 }
