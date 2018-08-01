@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace DAL.Destination.Interface.Entities
 {
-    class UrlAddresses
+    public sealed class UrlAddresses
     {
         [XmlArray("urlAddresses")]
         public List<UrlAddress> Addresses = new List<UrlAddress>();

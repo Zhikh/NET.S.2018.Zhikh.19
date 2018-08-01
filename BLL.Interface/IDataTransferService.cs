@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface
 {
-    public interface IDataTransferService<ProviderOut, StorageIn>
+    public interface IDataTransferService
     {
-        void Transfer(IDataProvider<ProviderOut> provider, IStorage<StorageIn> storage);
+        void Transfer();
     }
 }

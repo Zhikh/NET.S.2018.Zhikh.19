@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace DAL.Destination.Interface.Entities
 {
-    public sealed class UrlEntity
+    public sealed class UrlAddress
     {
 
     }

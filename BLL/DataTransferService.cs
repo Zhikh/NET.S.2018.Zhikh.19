@@ -10,9 +10,18 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public sealed class DataTransferService : IDataTransferService<string, UrlAddress>
+    public sealed class DataTransferService : IDataTransferService
     {
-        public void Transfer(IDataProvider<string> provider, IStorage<UrlAddress> storage)
+        private IDataProvider<string> _provider;
+        private IStorage<UrlAddress> _storage;
+
+        public DataTransferService(IDataProvider<string> provider, IStorage<UrlAddress> storage)
+        {
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+        }
+
+        public void Transfer()
         {
             throw new NotImplementedException();
         }
