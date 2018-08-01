@@ -9,6 +9,7 @@ using BLL;
 using DAL.Source.Interface;
 using DAL.Destination.Interface;
 using DAL.Destination.Interface.Entities;
+using BLL.Interface;
 
 namespace UI.Console
 {
@@ -25,9 +26,13 @@ namespace UI.Console
         static void Main(string[] args)
         {
             var service = new DataTransferService(resolver.Get<IDataProvider<string>>(), 
-                resolver.Get<IStorage<UrlAddress>>());
+                resolver.Get<IStorage<UrlAddress>>(), resolver.Get<IParser<Uri>>());
 
             service.Transfer();
+
+            System.Console.WriteLine(resolver.Get<IStorage<UrlAddress>>().GetContent());
+
+            System.Console.ReadKey();
         }
     }
 }
