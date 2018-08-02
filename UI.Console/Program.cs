@@ -23,8 +23,8 @@ namespace UI.Console
 
         static Program()
         {
-            FileInfo txtFile = new FileInfo(ConfigurationManager.AppSettings["txtPath"]);
-            FileInfo xmlFile = new FileInfo(ConfigurationManager.AppSettings["xmlPath"]);
+            var txtFile = new FileInfo(ConfigurationManager.AppSettings["txtPath"]);
+            var xmlFile = new FileInfo(ConfigurationManager.AppSettings["xmlPath"]);
 
             resolver = new StandardKernel();
             resolver.ConfigurateResolver(txtFile, xmlFile);
@@ -32,12 +32,12 @@ namespace UI.Console
 
         static void Main(string[] args)
         {
-            var service = new DataTransferService(resolver.Get<IDataProvider<string>>(),
-                resolver.Get<IStorage<UrlAddress>>(), resolver.Get<IParser<Uri>>());
+            var service = DataTransferService.Instance;
             
-            service.Transfer();
+            service.Transfer(resolver.Get<IDataProvider<string>>(),
+                resolver.Get<IStorage<Uri>>(), resolver.Get<IParser<Uri>>());
 
-            System.Console.WriteLine(resolver.Get<IStorage<UrlAddress>>().GetContent());
+            System.Console.WriteLine(resolver.Get<IStorage<Uri>>().GetContent());
 
             System.Console.ReadKey();
         }

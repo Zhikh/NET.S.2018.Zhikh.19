@@ -16,7 +16,7 @@ namespace DependencyResolver
         public static void ConfigurateResolver(this IKernel kernel, FileInfo providerFile, FileInfo storageFile)
         {
             kernel.Bind<IDataProvider<string>>().To<DataProvider>().WithConstructorArgument(providerFile);
-            kernel.Bind<IStorage<UrlAddress>>().To<XMLStorage>().WithConstructorArgument(storageFile);
+            kernel.Bind<IStorage<Uri>>().To<XMLStorage>().WithConstructorArgument(storageFile);
             kernel.Bind<IParser<Uri>>().To<Parser>();
         }
     }

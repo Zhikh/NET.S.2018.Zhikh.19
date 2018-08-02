@@ -1,17 +1,43 @@
 ﻿using BLL.Interface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL
 {
     public sealed class Logger : ILogger
     {
-        public void Log()
+        NLog.Logger logger;
+
+        public Logger()
         {
-            throw new NotImplementedException();
+            logger = NLog.LogManager.GetCurrentClassLogger();
+
+            var config = new NLog.Config.LoggingConfiguration();
+
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "log.txt" };
+
+            config.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Fatal, logfile);
+
+            NLog.LogManager.Configuration = config;
+        }
+
+        public void LogError(string message, Exception ex)
+        {
+            logger.Error(ex.StackTrace, message);
+        }
+
+        public void LogFatal(string message, Exception ex)
+        {
+            logger.Fatal(ex.StackTrace, message);
+        }
+
+        public void LogInfo(string message)
+        {
+            logger.Info(message);
+        }
+
+        public void LogWarn(string message)
+        {
+            logger.Warn(message);
         }
     }
 }

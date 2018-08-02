@@ -1,5 +1,4 @@
 ﻿using DAL.Destination.Interface;
-using DAL.Destination.Interface.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DAL.Destination
 {
-    public sealed class XMLStorage : IStorage<UrlAddress>
+    public sealed class XMLStorage : IStorage<Uri>
     {
         private readonly FileInfo _file;
 
@@ -22,7 +21,7 @@ namespace DAL.Destination
             return XDocument.Load(_file.FullName);
         }
 
-        public void Save(IEnumerable<UrlAddress> entities)
+        public void Save(IEnumerable<Uri> entities)
         {
             if (entities == null)
             {
@@ -34,7 +33,7 @@ namespace DAL.Destination
                     entities.Select(e =>
                         new XElement("urlAddress",
                         new XElement("host",
-                            new XAttribute("name", e.HostName)),
+                            new XAttribute("name", e.Host)),
                             new XElement("uri",
                                 e.Segments.Select(s =>
                                     new XElement("segment", s.ToString()))

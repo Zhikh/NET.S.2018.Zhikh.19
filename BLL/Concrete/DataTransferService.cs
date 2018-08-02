@@ -1,7 +1,5 @@
 ﻿using BLL.Interface;
-using BLL.Mappers;
 using DAL.Destination.Interface;
-using DAL.Destination.Interface.Entities;
 using DAL.Source.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,24 +8,65 @@ namespace BLL
 {
     public sealed class DataTransferService : IDataTransferService
     {
-        private IDataProvider<string> _provider;
-        private IStorage<UrlAddress> _storage;
-        private IParser<Uri> _parser;
+        private static readonly ILogger _logger = new Logger();
 
-        public DataTransferService(IDataProvider<string> provider, IStorage<UrlAddress> storage, IParser<Uri> parser)
+        private static volatile DataTransferService _instance;
+
+        private static readonly object _syncRoot = new object();
+
+        DataTransferService() { }
+
+        public static DataTransferService Instance
         {
-            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
-            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-            _parser = parser ?? throw new ArgumentNullException(nameof(parser));
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_syncRoot)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new DataTransferService();
+                        }
+                    }
+                }
+                return _instance;
+            }
         }
 
-        public void Transfer()
+        public void Transfer(IDataProvider<string> provider, IStorage<Uri> storage, IParser<Uri> parser)
         {
-            IEnumerable<string> data = _provider.GetAll();
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
 
-            IEnumerable<Uri> uris = _parser.Parse(data);
+            if (storage == null)
+            {
+                throw new ArgumentNullException(nameof(storage));
+            }
 
-            _storage.Save(uris.ToUrlAddress());
+            if (parser == null)
+            {
+                throw new ArgumentNullException(nameof(parser));
+            }
+
+            IEnumerable<string> data = provider.GetAll();
+            List<Uri> uris = new List<Uri>();
+
+            foreach (var element in data)
+            {
+                try
+                {
+                    uris.Add(parser.Parse(element));
+                }
+                catch(ArgumentException ex)
+                {
+                    _logger.LogError(ex.Message, ex);
+                }
+            }
+
+            storage.Save(uris);
         }
     }
 }

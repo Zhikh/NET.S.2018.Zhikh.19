@@ -1,49 +1,30 @@
 ﻿using BLL.Interface;
 using System;
-using System.Collections.Generic;
+
 namespace BLL
 {
     public sealed class Parser : IParser<Uri>
     {
-        private IValidator<string, Uri> _validator;
-        private ILogger _logger;
+        private IValidator<string> _validator;
 
         public Parser()
         {
             _validator = new Validator();
-            _logger = new Logger();
         }
 
-        public Parser(IValidator<string, Uri> validator, ILogger logger)
+        public Parser(IValidator<string> validator)
         {
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public IEnumerable<Uri> Parse(IEnumerable<string> values)
+        public Uri Parse(string value)
         {
-            List<Uri> list = new List<Uri>();
-
-            foreach (var value in values)
+            if (!_validator.IsValid(value))
             {
-                Uri result = null;
-
-                try
-                {
-                    result = _validator.Validate(value);
-                }
-                catch(Exception ex)
-                {
-                    // TODO: save in logger
-                }
-
-                if (result != null)
-                {
-                    list.Add(result);
-                }
+                throw new ArgumentException($"The {nameof(value)} = {value} is invalid!");
             }
 
-            return list;
+            return new Uri(value);
         }
     }
 }
