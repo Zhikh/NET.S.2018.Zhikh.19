@@ -1,7 +1,7 @@
 ﻿namespace BLL.Interface
 {
-    public interface IValidator<TInput, TResult>
+    public interface IValidator<in TInput>
     {
-        TResult Validate(TInput value);
+        bool IsValid(TInput value);
     }
 }

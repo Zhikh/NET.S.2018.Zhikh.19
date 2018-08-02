@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace DAL.Destination.Interface
 {
-    public interface IStorage<in TEntity>
+    public interface IStorage<TEntity>
     {
         void Save(IEnumerable<TEntity> entities);
 
