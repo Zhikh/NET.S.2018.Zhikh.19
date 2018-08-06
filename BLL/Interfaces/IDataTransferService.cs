@@ -6,6 +6,6 @@ namespace BLL.Interface
 {
     public interface IDataTransferService
     {
-        void Transfer(IDataProvider<string> provider, IStorage<Uri> storage, IParser<Uri> parser);
+        void Transfer();
     }
 }

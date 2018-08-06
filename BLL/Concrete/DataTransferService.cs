@@ -1,5 +1,6 @@
 ﻿using BLL.Interface;
 using DAL.Destination.Interface;
+using DAL.Destination.Interface.Entities;
 using DAL.Source.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,55 +11,27 @@ namespace BLL
     {
         private static readonly ILogger _logger = new Logger();
 
-        private static volatile DataTransferService _instance;
+        private IDataProvider<string> _provider;
+        private IStorage<Uri> _storage;
+        private IParser<Uri> _parser;
 
-        private static readonly object _syncRoot = new object();
-
-        DataTransferService() { }
-
-        public static DataTransferService Instance
+        public DataTransferService(IDataProvider<string> provider, IStorage<Uri> storage, IParser<Uri> parser)
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (_syncRoot)
-                    {
-                        if (_instance == null)
-                        {
-                            _instance = new DataTransferService();
-                        }
-                    }
-                }
-                return _instance;
-            }
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            _parser = parser ?? throw new ArgumentNullException(nameof(parser));
         }
 
-        public void Transfer(IDataProvider<string> provider, IStorage<Uri> storage, IParser<Uri> parser)
+        public void Transfer()
         {
-            if (provider == null)
-            {
-                throw new ArgumentNullException(nameof(provider));
-            }
-
-            if (storage == null)
-            {
-                throw new ArgumentNullException(nameof(storage));
-            }
-
-            if (parser == null)
-            {
-                throw new ArgumentNullException(nameof(parser));
-            }
-
-            IEnumerable<string> data = provider.GetAll();
+            IEnumerable<string> data = _provider.GetAll();
             List<Uri> uris = new List<Uri>();
 
             foreach (var element in data)
             {
                 try
                 {
-                    uris.Add(parser.Parse(element));
+                    uris.Add(_parser.Parse(element));
                 }
                 catch(ArgumentException ex)
                 {
@@ -66,7 +39,7 @@ namespace BLL
                 }
             }
 
-            storage.Save(uris);
+            _storage.Save(uris);
         }
     }
 }
