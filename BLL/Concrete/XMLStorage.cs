@@ -1,11 +1,11 @@
-﻿using DAL.Destination.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using BLL.Interface;
 
-namespace DAL.Destination
+namespace BLL.Concrete
 {
     public sealed class XMLStorage : IStorage<Uri>
     {

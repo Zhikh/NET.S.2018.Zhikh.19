@@ -1,8 +1,7 @@
-﻿using BLL.Interface;
-using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using BLL.Interface;
 
-namespace BLL
+namespace BLL.Concrete
 {
     public sealed class Validator : IValidator<string>
     {

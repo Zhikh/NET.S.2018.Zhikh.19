@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using DAL.Source.Interface;
+using BLL.Interface;
 
-namespace DAL.Source
+namespace BLL.Concrete
 {
     public sealed class DataProvider : IDataProvider<string>
     {

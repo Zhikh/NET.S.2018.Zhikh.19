@@ -1,7 +1,7 @@
-﻿using BLL.Interface;
-using System;
+﻿using System;
+using BLL.Interface;
 
-namespace BLL
+namespace BLL.Concrete
 {
     public sealed class Parser : IParser<Uri>
     {

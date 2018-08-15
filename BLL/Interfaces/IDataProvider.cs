@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DAL.Source.Interface
+namespace BLL.Interface
 {
     public interface IDataProvider<out T>
     {

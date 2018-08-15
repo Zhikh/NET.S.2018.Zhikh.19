@@ -1,11 +1,8 @@
-﻿using BLL.Interface;
-using DAL.Destination.Interface;
-using DAL.Destination.Interface.Entities;
-using DAL.Source.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BLL.Interface;
 
-namespace BLL
+namespace BLL.Concrete
 {
     public sealed class DataTransferService : IDataTransferService
     {

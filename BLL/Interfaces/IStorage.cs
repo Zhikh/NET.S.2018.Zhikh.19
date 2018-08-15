@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DAL.Destination.Interface
+namespace BLL.Interface
 {
     public interface IStorage<in TEntity>
     {
