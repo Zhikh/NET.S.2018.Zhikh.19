@@ -16,11 +16,6 @@ namespace DAL.Destination
             _file = file ?? throw new ArgumentNullException(nameof(file));
         }
 
-        public XDocument GetContent()
-        {
-            return XDocument.Load(_file.FullName);
-        }
-
         public void Save(IEnumerable<Uri> entities)
         {
             if (entities == null)
