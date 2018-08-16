@@ -4,4 +4,3 @@ XML
 Develop a type system for exporting data obtained by parsing the information of a text file into an XML document
 ### Edits
 - Exclude GetContent method
-- Change type of data from storage
