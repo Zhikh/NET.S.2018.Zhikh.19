@@ -11,11 +11,22 @@ namespace BLL.Concrete
     {
         private readonly FileInfo _file;
 
-        public XMLStorage(FileInfo file)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XMLStorage"/>.
+        /// </summary>
+        /// <param name="fileInfo"> Database connection string. </param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="fileInfo"> is null or empty. </paramref>
+        /// </exception>
+        public XMLStorage(FileInfo fileInfo)
         {
-            _file = file ?? throw new ArgumentNullException(nameof(file));
+            _file = fileInfo ?? throw new ArgumentNullException(nameof(fileInfo));
         }
 
+        /// <summary>
+        /// Saves data to XML-file
+        /// </summary>
+        /// <param name="entities"> Collection of the <see cref="Uri"/> elements. </param>
         public void Save(IEnumerable<Uri> entities)
         {
             if (entities == null)

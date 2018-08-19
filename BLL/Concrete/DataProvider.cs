@@ -7,28 +7,39 @@ namespace BLL.Concrete
 {
     public sealed class DataProvider : IDataProvider<string>
     {
-        private readonly FileInfo _file;
+        #region Fields
+        private readonly Stream _stream;
+        #endregion
 
-        public DataProvider(FileInfo file)
+        #region Public API
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataProvider"/>
+        /// </summary>
+        /// <param name="stream"></param>
+        public DataProvider(Stream stream)
         {
-            _file = file ?? throw new ArgumentNullException(nameof(file));
+            _stream = stream ?? throw new ArgumentNullException(nameof(stream));
         }
 
+        /// <summary>
+        /// Gets whole data from file
+        /// </summary>
+        /// <returns> Collection of elements of string type </returns>
         public IEnumerable<string> GetAll()
         {
-            List<string> result = new List<string>();
+            var lines = new List<string>();
 
-            using (StreamReader reader = new StreamReader(_file.FullName))
+            using (var reader = new StreamReader(_stream))
             {
                 string line;
-
                 while ((line = reader.ReadLine()) != null)
                 {
-                    result.Add(line);
+                    lines.Add(line);
                 }
             }
 
-            return result;
+            return lines;
         }
+        #endregion
     }
 }
