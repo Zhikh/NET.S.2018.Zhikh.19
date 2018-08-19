@@ -7,7 +7,7 @@ using BLL.Interface;
 
 namespace BLL.Concrete
 {
-    public sealed class XMLStorage : IStorage<Uri>
+    public sealed class XMLStorage : IStorage<UrlAddress>
     {
         private readonly FileInfo _file;
 
@@ -27,7 +27,7 @@ namespace BLL.Concrete
         /// Saves data to XML-file
         /// </summary>
         /// <param name="entities"> Collection of the <see cref="Uri"/> elements. </param>
-        public void Save(IEnumerable<Uri> entities)
+        public void Save(IEnumerable<UrlAddress> entities)
         {
             if (entities == null)
             {
@@ -39,12 +39,13 @@ namespace BLL.Concrete
                     entities.Select(e =>
                         new XElement("urlAddress",
                         new XElement("host",
-                            new XAttribute("name", e.Host)),
+                            new XAttribute("name", e.HostName)),
                             new XElement("uri",
                                 e.Segments.Select(s =>
                                     new XElement("segment", s.ToString()))
                             )))
                     ));
+
 
             xDoc.Save(_file.FullName);
         }

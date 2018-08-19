@@ -10,7 +10,7 @@ namespace BLL.Concrete
         private static readonly ILogger _logger = new Logger();
 
         private IDataProvider<string> _provider;
-        private IStorage<Uri> _storage;
+        private IStorage<UrlAddress> _storage;
         private IParser<Uri> _parser;
         #endregion
 
@@ -26,7 +26,7 @@ namespace BLL.Concrete
         ///     <paramref name="storage" /> is null.
         ///     <paramref name="parser" /> is null.
         /// </exception>
-        public DataTransferService(IDataProvider<string> provider, IStorage<Uri> storage, IParser<Uri> parser)
+        public DataTransferService(IDataProvider<string> provider, IStorage<UrlAddress> storage, IParser<Uri> parser)
         {
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _storage = storage ?? throw new ArgumentNullException(nameof(storage));
@@ -53,7 +53,7 @@ namespace BLL.Concrete
                 }
             }
 
-            _storage.Save(uris);
+            _storage.Save(uris.ToMany());
         }
         #endregion
     }

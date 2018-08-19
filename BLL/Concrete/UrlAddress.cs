@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DAL.Destination.Interface.Entities
+namespace BLL.Concrete
 {
     public sealed class UrlAddress
     {
